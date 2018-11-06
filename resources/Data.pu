@@ -1,0 +1,34 @@
+@startuml
+
+class User{
+      id : int
+      Pseudo : String
+      Picture : String
+}
+
+class Game{
+      id : int
+      RoundNumber: int
+      
+}
+
+class Round{
+      id : int
+}
+
+class Stat{
+      id : int
+      gamePlayed : int
+      victory : int
+      defeat : int
+      maxCombo : int
+      totalCombo : int
+      averageCombo : int
+      minCombo : int
+}
+
+User <|-- Stat
+
+not on top of Stat : Time correspond to the number of Round the player lasted.
+
+@enduml
