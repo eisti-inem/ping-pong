@@ -1,0 +1,34 @@
+@startuml
+start
+:Launch application;
+repeat
+if (Main menu) then (Statistics)
+  :Show the statistics screen;
+else
+  :Start a new game;
+  repeat
+  :Select players;
+  if (The player exists?) then
+    :Select an existing player;
+  else
+    :Create a new player;
+  endif
+  repeat while (All players are selected?) is (false)
+  :Launch game;
+  :Game automatically chooses the 4 first players;
+  :The players are shown in the game UI;
+  while (Stop button is being pressed?) is (false)
+    :(Real) Game starts;
+    :A play ends, the loosing player clicks on his name;
+    fork
+      :Players and game statistics are updated;
+    fork again
+      :A new player is selected by the game to enter the table;
+      :The game displays who enters the table;
+    end fork
+  end while (true)
+  :Show the game statistics;
+endif
+repeat while (The application is still running) is (true)
+stop
+@enduml
