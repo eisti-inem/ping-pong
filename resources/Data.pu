@@ -29,6 +29,9 @@ class Stat{
 
 User <|-- Stat
 
-not on top of Stat : Time correspond to the number of Round the player lasted.
+Game o-- User : A game may have pany players
+
+Round o-- User : A round as 4 players
+
 
 @enduml
