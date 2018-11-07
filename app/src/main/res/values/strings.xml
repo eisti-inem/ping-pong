@@ -8,4 +8,5 @@
     <string name="titlePseudo">Enter a pseudo</string>
     <string name="titleName">Enter Your Name</string>
     <string name="titleSurname">Enter your surname</string>
+    <string name="addPlayer">Add a player</string>
 </resources>
