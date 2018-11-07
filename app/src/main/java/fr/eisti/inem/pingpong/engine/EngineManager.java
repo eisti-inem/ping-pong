@@ -2,6 +2,8 @@ package fr.eisti.inem.pingpong.engine;
 
 import android.content.Context;
 
+import fr.eisti.inem.pingpong.engine.game.GameManager;
+import fr.eisti.inem.pingpong.engine.statistics.StatisticsManager;
 import fr.eisti.inem.pingpong.engine.storage.PingPongSQLHelper;
 import fr.eisti.inem.pingpong.engine.user.UserManager;
 
