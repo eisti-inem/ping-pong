@@ -23,7 +23,7 @@ public class EngineManager {
      * @return the initialized engine manager
      */
     public static EngineManager initialize(Context context) {
-        if (EngineManager.singleton != null) {
+        if (EngineManager.singleton == null) {
             EngineManager.singleton = new EngineManager(context);
         }
 

@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="NewGame">New Game</string>
     <string name="statMenu">See Statistics</string>
+    <string name="newUser">Create New Player</string>
+    <string name="ValidateUserAdd">Add User</string>
 </resources>
