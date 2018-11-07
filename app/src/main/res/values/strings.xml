@@ -5,4 +5,7 @@
     <string name="statMenu">See Statistics</string>
     <string name="newUser">Create New Player</string>
     <string name="ValidateUserAdd">Add User</string>
+    <string name="titlePseudo">Enter a pseudo</string>
+    <string name="titleName">Enter Your Name</string>
+    <string name="titleSurname">Enter your surname</string>
 </resources>
