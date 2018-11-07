@@ -25,7 +25,7 @@ public class PingPongSQLHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Build the Users database
         db.execSQL(String.format("CREATE TABLE %s " +
-                "(id INTEGER PRIMARY KEY," +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "userName TEXT," +
                 "profilePicturePath TEXT," +
                 "firstName TEXT," +

@@ -147,29 +147,12 @@ public class User {
     public ContentValues getValues() {
         ContentValues returnValues = new ContentValues();
 
-        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[0], toStringOrNull(this.id));
-        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[1], toStringOrNull(this.userName));
-        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[2],
-                toStringOrNull(this.profilePicturePath));
-        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[3], toStringOrNull(this.firstName));
-        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[4], toStringOrNull(this.lastName));
+        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[0], this.id);
+        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[1], this.userName);
+        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[2], this.profilePicturePath);
+        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[3], this.firstName);
+        returnValues.put(PingPongSQLHelper.USER_TABLE_COLUMNS[4], this.lastName);
 
         return returnValues;
-    }
-
-    private String toStringOrNull(String value) {
-        if (value == null) {
-            return "null";
-        } else {
-            return value;
-        }
-    }
-
-    private String toStringOrNull(Integer value) {
-        if (value == null) {
-            return "null";
-        } else {
-            return Integer.toString(value);
-        }
     }
 }
