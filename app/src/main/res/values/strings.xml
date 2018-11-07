@@ -9,4 +9,6 @@
     <string name="titleName">Enter Your Name</string>
     <string name="titleSurname">Enter your surname</string>
     <string name="addPlayer">Add a player</string>
+    <string name="playerList">Player List</string>
+    <string name="startGame">Start new game</string>
 </resources>
