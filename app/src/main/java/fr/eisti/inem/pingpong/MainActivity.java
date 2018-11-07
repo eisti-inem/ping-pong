@@ -1,5 +1,6 @@
 package fr.eisti.inem.pingpong;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
@@ -9,9 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import fr.eisti.inem.pingpong.engine.EngineManager;
 import fr.eisti.inem.pingpong.ui.OnAddUserListener;
+import fr.eisti.inem.pingpong.ui.OnMenuButtonClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         this.engineManager = EngineManager.get();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new OnAddUserListener(this));
+        Button newGame = findViewById(R.id.newGameMenuButton);
+        newGame.setOnClickListener(new OnMenuButtonClickListener(this,newGame.getId()));
     }
 
     @Override
@@ -53,5 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
     public EngineManager getEngineManager() {
         return engineManager;
+    }
+
+    public void startNewGame(){
+        Intent i = new Intent(MainActivity.this,NewGamePlayerSelect.class);
+        MainActivity.this.startActivity(i);
+        
     }
 }

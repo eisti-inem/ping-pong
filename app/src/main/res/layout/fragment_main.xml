@@ -17,12 +17,14 @@
     <Button
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="@string/NewGame"/>
+        android:text="@string/NewGame"
+        android:id="@+id/newGameMenuButton"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/statMenu"/>
+        android:text="@string/statMenu"
+        android:id="@+id/statMenuButton"/>
 
 
 </LinearLayout>
