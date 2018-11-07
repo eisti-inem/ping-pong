@@ -56,13 +56,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public EngineManager getEngineManager() {
-        return engineManager;
-    }
 
     public void startNewGame(){
         Intent i = new Intent(MainActivity.this,NewGamePlayerSelect.class);
         MainActivity.this.startActivity(i);
-        
+
     }
 }
