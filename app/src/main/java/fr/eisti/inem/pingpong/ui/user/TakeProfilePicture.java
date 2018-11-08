@@ -1,4 +1,4 @@
-package fr.eisti.inem.pingpong.ui;
+package fr.eisti.inem.pingpong.ui.user;
 
 import android.app.Activity;
 import android.content.Intent;

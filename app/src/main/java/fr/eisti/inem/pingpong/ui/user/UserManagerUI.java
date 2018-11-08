@@ -1,4 +1,4 @@
-package fr.eisti.inem.pingpong.ui;
+package fr.eisti.inem.pingpong.ui.user;
 
 /**
  * Manage user from the UI part
