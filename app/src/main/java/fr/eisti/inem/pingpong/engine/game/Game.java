@@ -1,5 +1,7 @@
 package fr.eisti.inem.pingpong.engine.game;
 
+import android.util.Log;
+
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +26,16 @@ public class Game {
         RIGHT_BOTTOM
     }
 
+    private static final String USER_NOT_FOUND_IN_GAME_ERROR =
+            "The given player is not part of the game.";
+
+    private static final String USER_NOT_FOUND_IN_TABLE_ERROR =
+            "The given player is not part of the table.";
+
     private List<User> players;
     private Queue<User> playerQueue;
     private Map<PlayerPosition, User> playerPositions;
+    private PlayerPosition lastEmptyPosition;
 
     /**
      * Create a new {@link Game}. For now, this implementation of a {@link Game} does not support
@@ -48,7 +57,7 @@ public class Game {
      *
      * @param user the player to add
      */
-    public Game addPlayer(User user) {
+    public Game addPlayerToGame(User user) {
         this.players.add(user);
         this.playerQueue.add(user);
 
@@ -62,8 +71,13 @@ public class Game {
      * @return the game itself
      * @throws UserNotFoundException if the player does not exist in the game
      */
-    public Game removePlayer(User user) throws UserNotFoundException {
+    public Game removePlayerFromGame(User user) throws UserNotFoundException {
+        if (!players.contains(user)) {
+            throw new UserNotFoundException(USER_NOT_FOUND_IN_GAME_ERROR);
+        }
+
         // TODO
+
         return this;
     }
 
@@ -76,8 +90,13 @@ public class Game {
      * @return the game itself
      * @throws UserNotFoundException if the player does not exist in the game
      */
-    public Game hasLost(User player) throws UserNotFoundException {
+    public Game markAsLoser(User player) throws UserNotFoundException {
+        if (!playerPositions.containsValue(player)) {
+            throw new UserNotFoundException(USER_NOT_FOUND_IN_TABLE_ERROR);
+        }
+
         // TODO
+
         return this;
     }
 
@@ -89,18 +108,15 @@ public class Game {
      * @throws UserNotFoundException if the player is not part of the game or not part of the table
      */
     public Game removePlayerFromTable(User player) throws UserNotFoundException {
-        if (!players.contains(player)) {
-            throw new UserNotFoundException("The user is not part of the current game.");
+        if (!playerPositions.containsValue(player)) {
+            throw new UserNotFoundException(USER_NOT_FOUND_IN_TABLE_ERROR);
         }
 
         PlayerPosition playerPosition = getPositionForPlayer(player);
-        if (playerPosition == null) {
-            throw new UserNotFoundException("The current user is not part of the table.");
-        }
-
         // Remove the player from the table
         playerPositions.remove(playerPosition);
-
+        // Mark the position as free
+        lastEmptyPosition = playerPosition;
         // Add the player to the queue
         playerQueue.add(player);
 
@@ -112,11 +128,27 @@ public class Game {
      * in the game. This player is the one at the beginning of the queue.
      * When called, this method also updates the player positions.
      *
-     * @return the user to use as a replacement.
+     * @return the game itself
      */
-    public User getReplacementPlayer() {
-        // TODO
-        return null;
+    public Game getReplacementPlayer() {
+        PlayerPosition freePosition = lastEmptyPosition;
+
+
+        if (freePosition != null) {
+            User newPlayer = playerQueue.poll();
+
+            if (newPlayer != null) {
+                playerPositions.put(freePosition, newPlayer);
+                // Make sure that the last empty position is not the one we just filled in
+                lastEmptyPosition = null;
+            } else {
+                // TODO: Log an error
+            }
+        } else {
+            // TODO: Log an error
+        }
+
+        return this;
     }
 
     public User getPlayerAtPosition(PlayerPosition position) {
@@ -127,7 +159,7 @@ public class Game {
      * Saves the game resources and end the game.
      */
     public void endGame() {
-
+        
     }
 
     /**
@@ -149,9 +181,5 @@ public class Game {
         } else {
             return null;
         }
-    }
-
-    private void initializePositions() {
-
     }
 }
