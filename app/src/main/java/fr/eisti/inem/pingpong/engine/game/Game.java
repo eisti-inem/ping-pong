@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 
 import fr.eisti.inem.pingpong.engine.user.User;
 import fr.eisti.inem.pingpong.engine.user.UserNotFoundException;
@@ -19,7 +20,7 @@ import fr.eisti.inem.pingpong.engine.user.UserNotFoundException;
  */
 public class Game {
 
-    enum PlayerPosition {
+    public enum PlayerPosition {
         LEFT_TOP,
         LEFT_BOTTOM,
         RIGHT_TOP,
@@ -46,6 +47,7 @@ public class Game {
     public Game(List<User> players) {
         this.players = players;
 
+        randomizePlayersOrder();
         this.playerQueue = new ArrayDeque<>();
         this.playerQueue.addAll(players);
 
@@ -156,6 +158,28 @@ public class Game {
     }
 
     /**
+     * Start the game, put the players in the queue on the table.
+     *
+     * @return the game itself
+     * @throws InvalidGameStateException if the queue has less than 2 players
+     */
+    public Game startGame() throws InvalidGameStateException {
+        if (playerQueue.size() < 2) {
+            throw new InvalidGameStateException("The current game has less than 2 players.");
+        } else {
+            // We are sure to have at least 2 players
+            playerPositions.put(PlayerPosition.LEFT_TOP, playerQueue.poll());
+            playerPositions.put(PlayerPosition.RIGHT_TOP, playerQueue.poll());
+
+            // Those two puts might be null, if we don't have 4 players in the game
+            playerPositions.put(PlayerPosition.LEFT_BOTTOM, playerQueue.poll());
+            playerPositions.put(PlayerPosition.RIGHT_BOTTOM, playerQueue.poll());
+        }
+
+        return this;
+    }
+
+    /**
      * Saves the game resources and end the game.
      */
     public void endGame() {
@@ -180,6 +204,23 @@ public class Game {
             return PlayerPosition.RIGHT_BOTTOM;
         } else {
             return null;
+        }
+    }
+
+    private void randomizePlayersOrder() {
+        Random random = new Random();
+
+        // start from end of the list
+        for (int i = players.size() - 1; i >= 1; i--)
+        {
+            // get a random index j such that 0 <= j <= i
+            int j = random.nextInt(i + 1);
+
+            // swap element at i'th position in the list with element at
+            // randomly generated index j
+            User player = players.get(i);
+            players.set(i, players.get(j));
+            players.set(j, player);
         }
     }
 }
