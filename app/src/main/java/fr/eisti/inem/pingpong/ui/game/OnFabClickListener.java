@@ -3,6 +3,8 @@ package fr.eisti.inem.pingpong.ui.game;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +29,29 @@ public class OnFabClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        //LinearLayout inside the popUp, wich gives access to the ad player methods
+        LinearLayout buttonLayout = new LinearLayout(this.newGamePlayerSelect);
+        buttonLayout.setOrientation(LinearLayout.VERTICAL);
+        //Button to create a new player and add it
+        Button fromScratchAdd = new Button(this.newGamePlayerSelect);
+        fromScratchAdd.setText(R.string.addPlayerFromScratch);
+        //Button to add a player from the database
+        Button fromDataBase = new Button(this.newGamePlayerSelect);
+        fromDataBase.setText(R.string.addPlayerFromDataBase);
+        //Put view inside each other
+        buttonLayout.addView(fromScratchAdd);
+        buttonLayout.addView(fromScratchAdd);
         AlertDialog.Builder builder = new AlertDialog.Builder(this.newGamePlayerSelect);
-        builder.setTitle(R.string.choosePlayers);
+        builder.setCancelable(false)
+                .setTitle(R.string.choosePlayers)
+                .setView(buttonLayout)
+                .setPositiveButton(R.string.validatePlayerAdd, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //It just closes the window
+                    }
+                })
+                .show();
                 //TODO check that
                 //.setItems(, new DialogInterface.OnClickListener() {
                   //  public void onClick(DialogInterface dialog, int which) {
@@ -36,8 +59,6 @@ public class OnFabClickListener implements View.OnClickListener {
                         // of the selected item
                     //}
                 //});
-
-
 
     }
 }

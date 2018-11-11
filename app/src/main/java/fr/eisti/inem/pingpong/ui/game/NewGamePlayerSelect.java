@@ -25,7 +25,7 @@ public class NewGamePlayerSelect extends AppCompatActivity {
         this.engineManager = EngineManager.get();
         this.playerList = new HashMap<>();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.initialAddPlayer);
-
+        fab.setOnClickListener(new OnFabClickListener(this));
     }
 
 

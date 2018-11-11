@@ -54,7 +54,7 @@ public class OnAddUserListener implements View.OnClickListener {
         ll.addView(inputSurname);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.ma);
-        builder.setCancelable(false)
+        builder.setCancelable(true)
                 .setTitle(R.string.newUser)
                 .setView(ll)
                 .setPositiveButton(R.string.ValidateUserAdd, new DialogInterface.OnClickListener() {

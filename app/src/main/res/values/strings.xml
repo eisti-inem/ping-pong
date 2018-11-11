@@ -14,4 +14,7 @@
     <string name="choosePlayers">Add players to the game!</string>
     <string name="fromScratch">Create a new player</string>
     <string name="fromDataBase">Add existing players</string>
+    <string name="validatePlayerAdd">Validate Player selection</string>
+    <string name="addPlayerFromScratch">Create a new player</string>
+    <string name="addPlayerFromDataBase">Add an existing player</string>
 </resources>
