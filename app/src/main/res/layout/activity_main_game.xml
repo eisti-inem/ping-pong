@@ -4,6 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainGameActivity">
+    tools:context=".ui.game.MainGameActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="fr.eisti.inem.pingpong.ui.game.PingPongTable"
+            android:id="@+id/pingPongTable"/>
+
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

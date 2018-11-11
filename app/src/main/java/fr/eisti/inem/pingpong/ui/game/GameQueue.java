@@ -1,4 +1,4 @@
-package fr.eisti.inem.pingpong;
+package fr.eisti.inem.pingpong.ui.game;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import fr.eisti.inem.pingpong.R;
 
 
 /**

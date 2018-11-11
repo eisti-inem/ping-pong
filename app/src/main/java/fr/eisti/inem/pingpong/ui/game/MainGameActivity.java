@@ -1,7 +1,9 @@
-package fr.eisti.inem.pingpong;
+package fr.eisti.inem.pingpong.ui.game;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import fr.eisti.inem.pingpong.R;
 
 public class MainGameActivity extends AppCompatActivity {
 
