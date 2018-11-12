@@ -1,4 +1,4 @@
-package fr.eisti.inem.pingpong.ui.user;
+package fr.eisti.inem.pingpong.ui.game;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,34 +8,34 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import fr.eisti.inem.pingpong.MainActivity;
 import fr.eisti.inem.pingpong.R;
 import fr.eisti.inem.pingpong.engine.EngineManager;
 import fr.eisti.inem.pingpong.engine.user.InvalidUserException;
 import fr.eisti.inem.pingpong.engine.user.User;
 import fr.eisti.inem.pingpong.engine.user.UserManager;
 
-public class OnAddUserListener implements View.OnClickListener {
+public class OnAddFromScratchListener implements View.OnClickListener {
 
-    private MainActivity ma;
-    private EngineManager engineManager;
+    private final EngineManager engineManager;
     private UserManager userManager;
+    private NewGamePlayerSelect ngps;
 
-    public OnAddUserListener(MainActivity m){
-        this.ma = m;
+
+    public OnAddFromScratchListener(NewGamePlayerSelect newGamePlayerSelect){
+        this.ngps = newGamePlayerSelect;
         this.engineManager = EngineManager.get();
         this.userManager = this.engineManager.getUserManager();
     }
 
     @Override
     public void onClick(View v) {
-        final TextView titlePseudo  = new TextView(this.ma);
-        final EditText inputPseudo  = new EditText(this.ma);
-        final TextView titleName    = new TextView(this.ma);
-        final EditText inputName    = new EditText(this.ma);
-        final TextView titleSurname = new TextView(this.ma);
-        final EditText inputSurname = new EditText(this.ma);
-        final LinearLayout ll       = new LinearLayout(this.ma);
+        final TextView titlePseudo  = new TextView(this.ngps);
+        final EditText inputPseudo  = new EditText(this.ngps);
+        final TextView titleName    = new TextView(this.ngps);
+        final EditText inputName    = new EditText(this.ngps);
+        final TextView titleSurname = new TextView(this.ngps);
+        final EditText inputSurname = new EditText(this.ngps);
+        final LinearLayout ll       = new LinearLayout(this.ngps);
 
 
         inputPseudo.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -53,7 +53,7 @@ public class OnAddUserListener implements View.OnClickListener {
         ll.addView(titleSurname);
         ll.addView(inputSurname);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.ma);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.ngps);
         builder.setCancelable(true)
                 .setTitle(R.string.newUser)
                 .setView(ll)
@@ -66,6 +66,7 @@ public class OnAddUserListener implements View.OnClickListener {
                                 inputSurname.getText().toString());
                         try {
                             userManager.add(user);
+                            ngps.addUser(user);
                         } catch (InvalidUserException e) {
                             e.printStackTrace();
                         }
@@ -73,6 +74,5 @@ public class OnAddUserListener implements View.OnClickListener {
                 })
                 .show();
 
-        //TODO import picture
     }
 }

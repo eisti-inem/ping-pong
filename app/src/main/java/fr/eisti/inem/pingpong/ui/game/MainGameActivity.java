@@ -21,7 +21,6 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
         GameQueue.OnFragmentInteractionListener{
 
     private EngineManager engineManager;
-    private Map<Game.PlayerPosition, User> tableContent;
     private Game currentGame;
     private List<User> playerQueue;
     private Map<Game.PlayerPosition,TextView> tablePosition;
@@ -29,26 +28,16 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_game_player_selection);
+        setContentView(R.layout.activity_main_game);
         this.engineManager = EngineManager.get();
-        this.tableContent = new HashMap<Game.PlayerPosition, User>();
         this.playerQueue = new ArrayList<>();
+        this.tablePosition = new HashMap<>();
         this.currentGame = (Game) getIntent().getExtras().get("game");
         try {
             this.currentGame.startGame();
         } catch (InvalidGameStateException e) {
             e.printStackTrace();
         }
-        //Fill the map of players
-        this.tableContent.put(Game.PlayerPosition.LEFT_TOP,
-                currentGame.getPlayerAtPosition(Game.PlayerPosition.LEFT_TOP));
-        this.tableContent.put(Game.PlayerPosition.LEFT_BOTTOM,
-                currentGame.getPlayerAtPosition(Game.PlayerPosition.LEFT_BOTTOM));
-        this.tableContent.put(Game.PlayerPosition.RIGHT_TOP,
-                currentGame.getPlayerAtPosition(Game.PlayerPosition.RIGHT_TOP));
-        this.tableContent.put(Game.PlayerPosition.RIGHT_BOTTOM,
-                currentGame.getPlayerAtPosition(Game.PlayerPosition.RIGHT_BOTTOM));
-
         //Fill the map of position in fragments
         this.tablePosition.put(Game.PlayerPosition.LEFT_TOP,
                 (TextView) findViewById(R.id.topLeft));
@@ -64,6 +53,12 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
         displayPlayersInTable();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     // When a player is clicked
     // Update the method signature if needed
     public void onPlayerClicked(User user) {
@@ -76,11 +71,11 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
     }
 
     private void displayPlayersInTable() {
-        for(Map.Entry entry : this.tablePosition.entrySet()){
-            if(!this.tableContent.get(entry.getKey()).equals(null)){
-                TextView tv = (TextView)entry.getValue();
-                tv.setText(this.tableContent.get(entry.getKey()).getUserName());
-                tv.setOnClickListener(new OnPlayerOutListener(this,this.tableContent.get(entry.getKey())));
+        for(Map.Entry<Game.PlayerPosition, TextView> entry : this.tablePosition.entrySet()){
+            if (this.currentGame.getPlayerAtPosition(entry.getKey()) != null){
+                TextView tv = entry.getValue();
+                tv.setText(this.currentGame.getPlayerAtPosition(entry.getKey()).getUserName());
+                tv.setOnClickListener(new OnPlayerOutListener(this,this.currentGame.getPlayerAtPosition(entry.getKey())));
             }
         }
     }
