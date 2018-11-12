@@ -25,5 +25,4 @@ public class NewGamePlayerSelect extends AppCompatActivity {
     }
 
 
-
 }
