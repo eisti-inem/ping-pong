@@ -43,7 +43,16 @@ public class NewGamePlayerSelect extends AppCompatActivity {
     public void addUser(User user){
         this.playerList.put(user.getId(),user);
         TextView player = new TextView(this);
-        player.setText(user.getUserName());
+
+        if (!user.getFirstName().isEmpty() && !user.getLastName().isEmpty()) {
+            player.setText(String.format("%s - %s %s",
+                    user.getUserName(),
+                    user.getFirstName(),
+                    user.getLastName().toUpperCase()));
+        } else {
+            player.setText(user.getUserName());
+        }
+
         this.playerListDisplay.addView(player);
         if(this.playerList.size() == 2){
             this.startGameButton.setOnClickListener(new OnStartGame(this));

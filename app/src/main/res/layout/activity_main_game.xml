@@ -12,16 +12,18 @@
         android:orientation="vertical">
 
         <fragment
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/pingPongTable"
             android:name="fr.eisti.inem.pingpong.ui.game.PingPongTable"
-            android:id="@+id/pingPongTable"/>
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            tools:layout="@layout/fragment_ping_pong_table" />
 
         <fragment
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/gameQueue"
             android:name="fr.eisti.inem.pingpong.ui.game.GameQueue"
-            android:id="@+id/gameQueue"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_game_queue" />
 
     </LinearLayout>
 

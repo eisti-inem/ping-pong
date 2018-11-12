@@ -31,7 +31,16 @@ public class OnAddFromDataBase implements View.OnClickListener {
 
         for(User player : this.availablePlayers){
             RadioButton rb = new RadioButton(this.ngps);
-            rb.setText(player.getUserName());
+
+            if (!player.getFirstName().isEmpty() && !player.getLastName().isEmpty()) {
+                rb.setText(String.format("%s - %s %s",
+                        player.getUserName(),
+                        player.getFirstName(),
+                        player.getLastName().toUpperCase()));
+            } else {
+                rb.setText(player.getUserName());
+            }
+
             listPlayers.addView(rb);
             fromRbToUser.put(rb.getId(),player);
 

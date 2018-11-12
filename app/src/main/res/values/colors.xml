@@ -3,4 +3,6 @@
     <color name="colorPrimary">#ff0000</color>
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#ff1B60</color>
+    <color name="pingPongTableColor">#FF8C92FF</color>
+    <color name="pingPongTableBorderColor">#FFFFFFFF</color>
 </resources>
