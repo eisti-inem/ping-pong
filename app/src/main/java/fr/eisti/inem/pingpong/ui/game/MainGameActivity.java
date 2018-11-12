@@ -3,12 +3,14 @@ package fr.eisti.inem.pingpong.ui.game;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import fr.eisti.inem.pingpong.R;
 import fr.eisti.inem.pingpong.engine.EngineManager;
@@ -24,6 +26,8 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
     private Game currentGame;
     private List<User> playerQueue;
     private Map<Game.PlayerPosition,TextView> tablePosition;
+    private LinearLayout queueDisplay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -49,8 +53,10 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
                 (TextView) findViewById(R.id.bottomRight));
         // TODO: use currentGame.initialize() once the method has been implemented
 
+        this.queueDisplay = findViewById(R.id.queueLayout);
         // Display players in the table
         displayPlayersInTable();
+        displayQueue();
     }
 
     @Override
@@ -65,6 +71,7 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
         try {
             currentGame.markAsLoser(user).removePlayerFromTable(user).getReplacementPlayer();
             displayPlayersInTable();
+            displayQueue();
         } catch (UserNotFoundException e) {
             // TODO: Do something, log an error or make a toast
         }
@@ -77,6 +84,17 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
                 tv.setText(this.currentGame.getPlayerAtPosition(entry.getKey()).getUserName());
                 tv.setOnClickListener(new OnPlayerOutListener(this,this.currentGame.getPlayerAtPosition(entry.getKey())));
             }
+        }
+    }
+
+    private void displayQueue(){
+        Queue<User> queueList = currentGame.getPlayerQueue();
+        this.queueDisplay.removeAllViews();
+        while(!(queueList.isEmpty())){
+            TextView tv = new TextView(this);
+            User player = queueList.poll();
+            tv.setText(player.getUserName());
+            this.queueDisplay.addView(tv);
         }
     }
 

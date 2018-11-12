@@ -17,7 +17,7 @@ public class PingPongSQLHelper extends SQLiteOpenHelper {
     public static final String GAME_TABLE_NAME = "game";
 
     public static final String[] GAME_TABLE_COLUMNS =
-            {"id"};
+            {"id", "randomValue"};
 
     public static final String STATISTIC_TYPE_TABLE_NAME = "statisticType";
 
@@ -63,7 +63,8 @@ public class PingPongSQLHelper extends SQLiteOpenHelper {
 
         // Build the Game table
         db.execSQL(String.format("CREATE TABLE %s (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT)", GAME_TABLE_NAME));
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "randomValue TEXT)", GAME_TABLE_NAME));
         // Build the GamePlayers table
         db.execSQL(String.format("CREATE TABLE %s (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +

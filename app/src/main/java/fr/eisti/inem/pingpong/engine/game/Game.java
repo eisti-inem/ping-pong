@@ -84,10 +84,13 @@ public class Game implements Serializable {
         // Persist the game in the database
         // We need that as we will need the game ID when saving the statistics
         SQLiteDatabase database = EngineManager.get().getDatabaseHelper().getWritableDatabase();
-        Long insertResult = database.insert(PingPongSQLHelper.GAME_TABLE_NAME, null, new ContentValues());
+
+        ContentValues gameContentValues = new ContentValues();
+        gameContentValues.put("randomValue", "hello");
+        Long insertResult = database.insert(PingPongSQLHelper.GAME_TABLE_NAME, null, gameContentValues);
 
         if (insertResult != -1) {
-            initializeStatistics();
+            //initializeStatistics();
         } else {
             Log.e(TAG, "Failed to persist the game in the database. " +
                     "Not initializing statistics.");
@@ -133,7 +136,7 @@ public class Game implements Serializable {
         this.players.add(user);
         this.playerQueue.add(user);
 
-        initializeStatisticsForPlayer(user);
+        //initializeStatisticsForPlayer(user);
 
         return this;
     }
@@ -159,12 +162,12 @@ public class Game implements Serializable {
         playerQueue.remove(user);
 
         // Remove it from the statistics after saving them
-        Map<StatisticType, UserStatistic> localUserStats = userStatistics.get(user);
+        /*Map<StatisticType, UserStatistic> localUserStats = userStatistics.get(user);
         if  (localUserStats != null) {
             for (Map.Entry<StatisticType, UserStatistic> stat : localUserStats.entrySet()) {
                 EngineManager.get().getStatisticsManager().persist(stat.getValue());
             }
-        }
+        }*/
 
         // And finally remove it from the players table
         players.remove(user);
@@ -186,7 +189,7 @@ public class Game implements Serializable {
             throw new UserNotFoundException(USER_NOT_FOUND_IN_TABLE_ERROR);
         }
 
-        for (Map.Entry<User, Map<StatisticType, UserStatistic>> userMapEntry :
+        /*for (Map.Entry<User, Map<StatisticType, UserStatistic>> userMapEntry :
                 userStatistics.entrySet()) {
             if (userMapEntry.getKey().equals(player)) {
                 // Mark one loss
@@ -195,7 +198,7 @@ public class Game implements Serializable {
                 // If the guy is the one that sent the ball, mark one win
                 // Else, mark one assist
             }
-        }
+        }*/
 
         return this;
     }
@@ -253,6 +256,10 @@ public class Game implements Serializable {
 
     public User getPlayerAtPosition(PlayerPosition position) {
         return playerPositions.get(position);
+    }
+
+    public Queue<User> getPlayerQueue() {
+        return new ArrayDeque<>(playerQueue);
     }
 
     /**
