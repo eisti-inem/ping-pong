@@ -24,4 +24,6 @@
     </string>
     <string name="chooseFromDatabase">Select an existing player</string>
     <string name="queueTitle">Next players</string>
+    <string name="displayPlayers">Display the player list</string>
+    <string name="okay">OK</string>
 </resources>

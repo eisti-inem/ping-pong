@@ -26,6 +26,12 @@
         android:text="@string/statMenu"
         android:id="@+id/statMenuButton"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/menuDiplayPlayers"
+        android:text="@string/displayPlayers"/>
+
 
 </LinearLayout>
 
