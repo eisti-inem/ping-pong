@@ -2,12 +2,14 @@ package fr.eisti.inem.pingpong.engine.user;
 
 import android.content.ContentValues;
 
+import java.io.Serializable;
+
 import fr.eisti.inem.pingpong.engine.storage.PingPongSQLHelper;
 
 /**
  * Represents an instance of a user.
  */
-public class User {
+public class User implements Serializable {
 
     private Integer id;
     private String userName;

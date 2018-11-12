@@ -13,7 +13,36 @@ public class PingPongSQLHelper extends SQLiteOpenHelper {
     public static final String[] USER_TABLE_COLUMNS =
             {"id", "userName", "profilePicturePath", "firstName", "lastName"};
 
-    public static final String STATISTICS_TABLE_NAME = "statistics";
+    public static final String GAME_TABLE_NAME = "game";
+
+    public static final String[] GAME_TABLE_COLUMNS =
+            {"id"};
+
+    public static final String STATISTIC_TYPE_TABLE_NAME = "statisticType";
+
+    public static final String[] STATISTIC_TYPE_TABLE_COLUMNS =
+            {"id", "statisticTypeName"};
+
+    public static final String USER_STATISTICS_TABLE_NAME = "userStatistics";
+
+    public static final String[] USER_STATISTICS_TABLE_COLUMNS =
+            {"id", "userId", "statTypeId", "statValue"};
+
+    public static final String GAME_STATISTICS_TABLE_NAME = "gameStatistics";
+
+    public static final String[] GAME_STATISTICS_TABLE_COLUMNS =
+            {"id", "gameId", "statTypeId", "statValue"};
+
+    public static final String USER_GAME_STATISTICS_TABLE_NAME = "userGameStatistics";
+
+    public static final String[] USER_GAME_STATISTICS_TABLE_COLUMNS =
+            {"id", "userId", "gameId", "statTypeId", "statValue"};
+
+    // Relation tables
+    public static final String GAME_PLAYERS_REL_TABLE_NAME = "gamePayers";
+
+    public static final String[] GAME_PLAYERS_REL_TABLE_COLUMNS =
+            {"id", "userId", "gameId"};
 
     private static final int DATABASE_VERSION = 1;
 
@@ -23,13 +52,46 @@ public class PingPongSQLHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Build the Users database
+        // Build the Users table
         db.execSQL(String.format("CREATE TABLE %s " +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "userName TEXT," +
                 "profilePicturePath TEXT," +
                 "firstName TEXT," +
                 "lastName TEXT)", USER_TABLE_NAME));
+
+        // Build the Game table
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT)", GAME_TABLE_NAME));
+        // Build the GamePlayers table
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "userId INTEGER," +
+                "gameId INTEGER)", GAME_PLAYERS_REL_TABLE_NAME));
+
+        // Build the StatisticType table
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "statisticTypeName TEXT)", STATISTIC_TYPE_TABLE_NAME));
+        // Build the UserStatistics table
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "userId INTEGER," +
+                "statTypeId INTEGER," +
+                "statValue INTEGER)", USER_STATISTICS_TABLE_NAME));
+        // Build the GameStatistics table
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "gameId INTEGER," +
+                "statTypeId INTEGER," +
+                "statValue INTEGER)", GAME_STATISTICS_TABLE_NAME));
+        // Build the UserGameStatistics table
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "userId INTEGER," +
+                "gameId INTEGER," +
+                "statTypeId INTEGER," +
+                "statValue INTEGER)", USER_GAME_STATISTICS_TABLE_NAME));
     }
 
     @Override

@@ -2,6 +2,7 @@ package fr.eisti.inem.pingpong.engine.game;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import fr.eisti.inem.pingpong.engine.user.UserNotFoundException;
  * A game can have several players and will run in rounds. The game itself should be initialized
  * by the {@link GameManager}.
  */
-public class Game {
+public class Game implements Serializable {
 
     public enum PlayerPosition {
         LEFT_TOP,
@@ -35,8 +36,10 @@ public class Game {
 
     private List<User> players;
     private Queue<User> playerQueue;
+
     private Map<PlayerPosition, User> playerPositions;
     private PlayerPosition lastEmptyPosition;
+    private Integer id;
 
     /**
      * Create a new {@link Game}. For now, this implementation of a {@link Game} does not support
@@ -52,6 +55,8 @@ public class Game {
         this.playerQueue.addAll(players);
 
         this.playerPositions = new HashMap<>();
+
+        // TODO: Persist the game in the database
     }
 
     /**
@@ -184,6 +189,15 @@ public class Game {
      */
     public void endGame() {
         
+    }
+
+    /**
+     * Get the internal ID used in the database to store the game.
+     *
+     * @return the game ID
+     */
+    public Integer getId() {
+        return this.id;
     }
 
     /**
