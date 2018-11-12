@@ -1,5 +1,6 @@
 package fr.eisti.inem.pingpong.engine.game;
 
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -12,6 +13,8 @@ import java.util.Random;
 
 import fr.eisti.inem.pingpong.engine.user.User;
 import fr.eisti.inem.pingpong.engine.user.UserNotFoundException;
+import fr.eisti.inem.pingpong.ui.game.GameQueue;
+import fr.eisti.inem.pingpong.ui.game.PingPongTable;
 
 /**
  * Represents an instance of a ping pong game. A game instance is self-standing and contains

@@ -12,11 +12,16 @@
         android:orientation="vertical">
 
         <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:name="fr.eisti.inem.pingpong.ui.game.PingPongTable"
             android:id="@+id/pingPongTable"/>
 
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="fr.eisti.inem.pingpong.ui.game.GameQueue"
+            android:id="@+id/gameQueue"/>
 
     </LinearLayout>
 
