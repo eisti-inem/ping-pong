@@ -1,5 +1,6 @@
 package fr.eisti.inem.pingpong.engine.storage;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -92,6 +93,19 @@ public class PingPongSQLHelper extends SQLiteOpenHelper {
                 "gameId INTEGER," +
                 "statTypeId INTEGER," +
                 "statValue INTEGER)", USER_GAME_STATISTICS_TABLE_NAME));
+
+        // Pre-fill the statistics table
+        ContentValues winStatisticType = new ContentValues();
+        winStatisticType.put(STATISTIC_TYPE_TABLE_COLUMNS[1], "win");
+        db.insert(STATISTIC_TYPE_TABLE_NAME, null, winStatisticType);
+
+        ContentValues lossStatisticType = new ContentValues();
+        lossStatisticType.put(STATISTIC_TYPE_TABLE_COLUMNS[1], "loss");
+        db.insert(STATISTIC_TYPE_TABLE_NAME, null, lossStatisticType);
+
+        ContentValues assistStatisticType = new ContentValues();
+        assistStatisticType.put(STATISTIC_TYPE_TABLE_COLUMNS[1], "assist");
+        db.insert(STATISTIC_TYPE_TABLE_NAME, null, assistStatisticType);
     }
 
     @Override

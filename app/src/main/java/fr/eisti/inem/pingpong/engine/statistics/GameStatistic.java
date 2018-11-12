@@ -47,8 +47,7 @@ public class GameStatistic extends Statistic {
                 null, null, null, "1");
 
         if (result.getCount() != 1) {
-            throw new StatisticNotFoundException(
-                    "The given statistic could not be found in the database.");
+            throw new StatisticNotFoundException(STATISTIC_NOT_FOUND_ERROR);
         }
 
         result.moveToFirst();

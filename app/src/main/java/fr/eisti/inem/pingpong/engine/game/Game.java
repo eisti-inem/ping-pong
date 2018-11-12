@@ -1,6 +1,7 @@
 package fr.eisti.inem.pingpong.engine.game;
 
-import android.net.Uri;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -11,6 +12,15 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 
+import fr.eisti.inem.pingpong.engine.EngineManager;
+import fr.eisti.inem.pingpong.engine.statistics.GameStatistic;
+import fr.eisti.inem.pingpong.engine.statistics.Statistic;
+import fr.eisti.inem.pingpong.engine.statistics.StatisticType;
+import fr.eisti.inem.pingpong.engine.statistics.StatisticTypeNotFoundException;
+import fr.eisti.inem.pingpong.engine.statistics.StatisticsManager;
+import fr.eisti.inem.pingpong.engine.statistics.UserGameStatistic;
+import fr.eisti.inem.pingpong.engine.statistics.UserStatistic;
+import fr.eisti.inem.pingpong.engine.storage.PingPongSQLHelper;
 import fr.eisti.inem.pingpong.engine.user.User;
 import fr.eisti.inem.pingpong.engine.user.UserNotFoundException;
 import fr.eisti.inem.pingpong.ui.game.GameQueue;
@@ -31,6 +41,8 @@ public class Game implements Serializable {
         RIGHT_BOTTOM
     }
 
+    private static final String TAG = "Game-Instance";
+
     private static final String USER_NOT_FOUND_IN_GAME_ERROR =
             "The given player is not part of the game.";
 
@@ -43,6 +55,16 @@ public class Game implements Serializable {
     private Map<PlayerPosition, User> playerPositions;
     private PlayerPosition lastEmptyPosition;
     private Integer id;
+
+    // Statistics maps
+    private Map<User, Map<StatisticType, UserStatistic>> userStatistics;
+    private Map<User, Map<StatisticType, UserGameStatistic>> userGameStatistics;
+    private Map<StatisticType, GameStatistic> gameStatistics;
+
+    // Usual statistic types
+    private StatisticType winStatType;
+    private StatisticType lossStatType;
+    private StatisticType assistStatType;
 
     /**
      * Create a new {@link Game}. For now, this implementation of a {@link Game} does not support
@@ -59,7 +81,47 @@ public class Game implements Serializable {
 
         this.playerPositions = new HashMap<>();
 
-        // TODO: Persist the game in the database
+        // Persist the game in the database
+        // We need that as we will need the game ID when saving the statistics
+        SQLiteDatabase database = EngineManager.get().getDatabaseHelper().getWritableDatabase();
+        Long insertResult = database.insert(PingPongSQLHelper.GAME_TABLE_NAME, null, new ContentValues());
+
+        if (insertResult != -1) {
+            initializeStatistics();
+        } else {
+            Log.e(TAG, "Failed to persist the game in the database. " +
+                    "Not initializing statistics.");
+        }
+    }
+
+    private void initializeStatistics() {
+        gameStatistics = new HashMap<>();
+        userStatistics = new HashMap<>();
+        userGameStatistics = new HashMap<>();
+
+        try {
+            winStatType = new StatisticType("win");
+            lossStatType = new StatisticType("loss");
+            assistStatType = new StatisticType("assist");
+
+            for (User user : players) {
+                initializeStatisticsForPlayer(user);
+            }
+        } catch (StatisticTypeNotFoundException e) {
+            // This should not happen with a well initialized database
+            Log.e(TAG, "Failed to load a statistic type.");
+        }
+    }
+
+    private void initializeStatisticsForPlayer(User user) {
+        StatisticsManager statManager = EngineManager.get().getStatisticsManager();
+
+        Map<StatisticType, UserStatistic> statMap = new HashMap<>();
+        statMap.put(winStatType, statManager.getOrCreate(winStatType, user));
+        statMap.put(lossStatType, statManager.getOrCreate(lossStatType, user));
+        statMap.put(assistStatType, statManager.getOrCreate(assistStatType, user));
+
+        userStatistics.put(user, statMap);
     }
 
     /**
@@ -70,6 +132,8 @@ public class Game implements Serializable {
     public Game addPlayerToGame(User user) {
         this.players.add(user);
         this.playerQueue.add(user);
+
+        initializeStatisticsForPlayer(user);
 
         return this;
     }
@@ -86,7 +150,24 @@ public class Game implements Serializable {
             throw new UserNotFoundException(USER_NOT_FOUND_IN_GAME_ERROR);
         }
 
-        // TODO
+        // If needed, remove the player from the table
+        if (playerPositions.containsValue(user)) {
+            removePlayerFromTable(user);
+        }
+
+        // Also remove it from the queue
+        playerQueue.remove(user);
+
+        // Remove it from the statistics after saving them
+        Map<StatisticType, UserStatistic> localUserStats = userStatistics.get(user);
+        if  (localUserStats != null) {
+            for (Map.Entry<StatisticType, UserStatistic> stat : localUserStats.entrySet()) {
+                EngineManager.get().getStatisticsManager().persist(stat.getValue());
+            }
+        }
+
+        // And finally remove it from the players table
+        players.remove(user);
 
         return this;
     }
@@ -105,7 +186,16 @@ public class Game implements Serializable {
             throw new UserNotFoundException(USER_NOT_FOUND_IN_TABLE_ERROR);
         }
 
-        // TODO
+        for (Map.Entry<User, Map<StatisticType, UserStatistic>> userMapEntry :
+                userStatistics.entrySet()) {
+            if (userMapEntry.getKey().equals(player)) {
+                // Mark one loss
+                userMapEntry.getValue().get(lossStatType).incrementValue();
+            } else {
+                // If the guy is the one that sent the ball, mark one win
+                // Else, mark one assist
+            }
+        }
 
         return this;
     }

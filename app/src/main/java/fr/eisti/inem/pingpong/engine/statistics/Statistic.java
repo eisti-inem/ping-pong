@@ -12,32 +12,35 @@ public abstract class Statistic implements Serializable {
         USER_GAME // Statistic defined for a user during a given game
     }
 
+    protected static final String STATISTIC_NOT_FOUND_ERROR = "The statistic could not be found" +
+            "in the database.";
+
     protected Integer id;
     protected StatisticScope statisticScope;
     protected StatisticType statisticType;
     protected Integer value;
 
-    Integer getId() {
+    public Integer getId() {
         return id;
     }
 
-    StatisticScope getStatisticScope() {
+    public StatisticScope getStatisticScope() {
         return statisticScope;
     }
 
-    StatisticType getStatisticType() {
+    public StatisticType getStatisticType() {
         return statisticType;
     }
 
-    Integer getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    void incrementValue() {
+    public void incrementValue() {
         value++;
     }
 
-    void incrementValue(Integer incrementValue) {
+    public void incrementValue(Integer incrementValue) {
         value += incrementValue;
     }
 
