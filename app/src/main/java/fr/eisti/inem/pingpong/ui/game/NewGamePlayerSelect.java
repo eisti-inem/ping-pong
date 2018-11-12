@@ -37,6 +37,7 @@ public class NewGamePlayerSelect extends AppCompatActivity {
         this.startGameButton = findViewById(R.id.startNewGame);
         this.playerListDisplay = findViewById(R.id.playerList);
         this.addFromScratch.setOnClickListener(new OnAddFromScratchListener(this));
+        this.addFromDatabase.setOnClickListener(new OnAddFromDataBase(this));
     }
 
     public void addUser(User user){
