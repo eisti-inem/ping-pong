@@ -7,4 +7,8 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/debug_prefill_database"
+        android:title="@string/prefillUserDatabase"
+        app:showAsAction="never"/>
 </menu>

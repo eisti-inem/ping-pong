@@ -17,6 +17,7 @@
     <string name="validatePlayerAdd">Validate Player selection</string>
     <string name="addPlayerFromScratch">Create a new player</string>
     <string name="addPlayerFromDataBase">Add an existing player</string>
+    <string name="prefillUserDatabase">Prefill the user database</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
