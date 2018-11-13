@@ -3,6 +3,7 @@ package fr.eisti.inem.pingpong.ui.game;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -17,7 +18,7 @@ import fr.eisti.inem.pingpong.engine.EngineManager;
 public class OnAddFromDataBase implements View.OnClickListener {
     private NewGamePlayerSelect ngps;
     private List<User> availablePlayers;
-    private Map<Integer,User> fromRbToUser = new HashMap<>();
+    private Map<RadioButton,User> fromRbToUser = new HashMap<>();
 
     public OnAddFromDataBase(NewGamePlayerSelect ngps){
         this.ngps = ngps;
@@ -27,7 +28,8 @@ public class OnAddFromDataBase implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         //Create a radio group to choose a player
-        final RadioGroup listPlayers = new RadioGroup(this.ngps);
+        final LinearLayout listPlayers = new LinearLayout(this.ngps);
+        listPlayers.setOrientation(LinearLayout.VERTICAL);
 
         for(User player : this.availablePlayers){
             RadioButton rb = new RadioButton(this.ngps);
@@ -42,7 +44,7 @@ public class OnAddFromDataBase implements View.OnClickListener {
             }
 
             listPlayers.addView(rb);
-            fromRbToUser.put(rb.getId(),player);
+            fromRbToUser.put(rb,player);
 
         }
         //Display this radioGroup in a popUp
@@ -53,8 +55,12 @@ public class OnAddFromDataBase implements View.OnClickListener {
                 .setPositiveButton(R.string.addPlayer, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Integer addingPlayer = listPlayers.getCheckedRadioButtonId();
-                        ngps.addUser(fromRbToUser.get(addingPlayer));
+                        for(Map.Entry<RadioButton,User> entry : fromRbToUser.entrySet()){
+                            if(entry.getKey().isChecked()){
+                                ngps.addUser(entry.getValue());
+                            }
+                        }
+
                     }
                 })
                 .show();
