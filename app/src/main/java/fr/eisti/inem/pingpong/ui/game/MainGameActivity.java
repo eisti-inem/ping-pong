@@ -102,4 +102,9 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
 }
