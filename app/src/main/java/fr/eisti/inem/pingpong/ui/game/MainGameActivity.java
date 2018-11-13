@@ -3,9 +3,12 @@ package fr.eisti.inem.pingpong.ui.game;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -56,6 +59,8 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
         // TODO: use currentGame.initialize() once the method has been implemented
 
         this.queueDisplay = findViewById(R.id.queueLayout);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddPlayerInGame);
+        fab.setOnClickListener(new OnAddPlayerInGame(this));
         // Display players in the table
         displayPlayersInTable();
         displayQueue();
@@ -132,6 +137,48 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
                         } catch (UserNotFoundException e) {
                             e.printStackTrace();
                         }
+                    }
+                })
+                .show();
+    }
+
+    public void addPlayerInGame() {
+        final Map<RadioButton,User> fromRbToUser = new HashMap<>();
+        final LinearLayout listPlayers = new LinearLayout(this);
+        listPlayers.setOrientation(LinearLayout.VERTICAL);
+
+
+        for(User player : this.engineManager.getUserManager().getAll()){
+            RadioButton rb = new RadioButton(this);
+
+            if (!player.getFirstName().isEmpty() && !player.getLastName().isEmpty()) {
+                rb.setText(String.format("%s - %s %s",
+                        player.getUserName(),
+                        player.getFirstName(),
+                        player.getLastName().toUpperCase()));
+            } else {
+                rb.setText(player.getUserName());
+            }
+
+            listPlayers.addView(rb);
+            fromRbToUser.put(rb,player);
+
+        }
+        //Display this radioGroup in a popUp
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true)
+                .setView(listPlayers)
+                .setTitle(R.string.chooseFromDatabase)
+                .setPositiveButton(R.string.addPlayer, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(Map.Entry<RadioButton,User> entry : fromRbToUser.entrySet()){
+                            if(entry.getKey().isChecked()){
+                                currentGame.addPlayerToGame(entry.getValue());
+                            }
+                        }
+                        updateView();
+
                     }
                 })
                 .show();
