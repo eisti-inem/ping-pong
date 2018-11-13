@@ -60,7 +60,7 @@ public class UserManager extends AbstractManager {
     public User get(Integer userId) throws UserNotFoundException {
         Cursor c = EngineManager.get().getDatabaseHelper().getReadableDatabase().query(
                 PingPongSQLHelper.USER_TABLE_NAME, PingPongSQLHelper.USER_TABLE_COLUMNS,
-                "id = ?s", new String[] { Integer.toString(userId) }, null, null ,null, "1");
+                "id = ?", new String[] { Integer.toString(userId) }, null, null ,null, "1");
 
         if (!c.moveToNext()) {
             throw new UserNotFoundException("No user could be found in the database.");
@@ -83,7 +83,7 @@ public class UserManager extends AbstractManager {
     public void update(User user) throws UserNotFoundException {
         int result = EngineManager.get().getDatabaseHelper().getWritableDatabase().update(
                 PingPongSQLHelper.USER_TABLE_NAME, user.getValues(),
-                "id = ?s", new String[] { Integer.toString(user.getId()) });
+                "id = ?", new String[] { Integer.toString(user.getId()) });
 
         if (result == 0) {
             throw new UserNotFoundException("No user could be found in the database.");
@@ -99,7 +99,7 @@ public class UserManager extends AbstractManager {
     public void delete(User user) throws UserNotFoundException {
         int result = EngineManager.get().getDatabaseHelper().getWritableDatabase().delete(
                 PingPongSQLHelper.USER_TABLE_NAME,
-                "id = ?s", new String[] { Integer.toString(user.getId()) });
+                "id = ?", new String[] { Integer.toString(user.getId()) });
 
         if (result == 0) {
             throw new UserNotFoundException("Unable to delete the user in the database.");

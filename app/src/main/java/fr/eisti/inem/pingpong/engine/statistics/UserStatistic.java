@@ -41,7 +41,7 @@ public class UserStatistic extends Statistic {
                 new String[] {
                         PingPongSQLHelper.USER_STATISTICS_TABLE_COLUMNS[0],
                         PingPongSQLHelper.USER_STATISTICS_TABLE_COLUMNS[3] },
-                String.format("userId = ?s AND statTypeId = ?s"),
+                String.format("userId = ? AND statTypeId = ?"),
                 new String[] {Integer.toString(this.user.getId()),
                         Integer.toString(statisticType.getId())},
                 null, null, null, "1");
