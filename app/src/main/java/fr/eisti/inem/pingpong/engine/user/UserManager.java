@@ -128,4 +128,28 @@ public class UserManager extends AbstractManager {
 
         return user;
     }
+
+    /**
+     * This method is only dedicated to ease testing phases on the application. This will fill the
+     * database with some users.
+     */
+    public void prefillUserDatabase() {
+        User pinkiePie = new User("pinkiePie", "", "Pinkie", "Pie");
+        User rarity = new User("rarity", "", "Ra", "Rity");
+        User flutterShy = new User("flutterShy", "", "Flutter", "Shy");
+        User rainbowDash = new User("rainbowDash", "", "Rainbow", "Dash");
+        User twilightSparkle = new User("twilightSparkle", "", "Twilight", "Sparkle");
+        User discord = new User("dIsC0rD", "", "Dis", "Cord");
+
+        try {
+            add(pinkiePie);
+            add(rarity);
+            add(flutterShy);
+            add(rainbowDash);
+            add(twilightSparkle);
+            add(discord);
+        } catch (InvalidUserException e) {
+            // TODO : Log an error, this should not happen
+        }
+    }
 }
