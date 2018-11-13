@@ -2,6 +2,7 @@ package fr.eisti.inem.pingpong.ui.game;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class NewGamePlayerSelect extends AppCompatActivity {
         this.addFromDatabase = findViewById(R.id.addFromDataBase);
         this.addFromScratch = findViewById(R.id.addFromScratch);
         this.startGameButton = findViewById(R.id.startNewGame);
+        this.startGameButton.setTextColor(Color.GRAY);
         this.playerListDisplay = findViewById(R.id.playerList);
         this.addFromScratch.setOnClickListener(new OnAddFromScratchListener(this));
         this.addFromDatabase.setOnClickListener(new OnAddFromDataBase(this));
@@ -55,6 +57,7 @@ public class NewGamePlayerSelect extends AppCompatActivity {
 
         this.playerListDisplay.addView(player);
         if(this.playerList.size() == 2){
+            this.startGameButton.setTextColor(Color.BLACK);
             this.startGameButton.setOnClickListener(new OnStartGame(this));
         }
     }

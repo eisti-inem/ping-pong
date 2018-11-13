@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import fr.eisti.inem.pingpong.engine.EngineManager;
 import fr.eisti.inem.pingpong.engine.user.User;
+import fr.eisti.inem.pingpong.ui.OnGetPlayerListListener;
 import fr.eisti.inem.pingpong.ui.user.OnAddUserListener;
 import fr.eisti.inem.pingpong.ui.OnMenuButtonClickListener;
 import fr.eisti.inem.pingpong.ui.game.NewGamePlayerSelect;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Button newGame = findViewById(R.id.newGameMenuButton);
         newGame.setOnClickListener(new OnMenuButtonClickListener(this,newGame.getId()));
         Button displayPlayers = findViewById(R.id.menuDiplayPlayers);
+        displayPlayers.setOnClickListener(new OnGetPlayerListListener(this));
     }
 
     @Override
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         for(User user : listPlayer){
             TextView tv = new TextView(this);
             tv.setText(user.getUserName());
+            tv.setPadding(10,10,10,10);
+            tv.setTextSize(23);
             ll.addView(tv);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

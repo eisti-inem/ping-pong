@@ -21,7 +21,7 @@ public class StatisticType implements Serializable {
         Cursor result = database.query(
                 PingPongSQLHelper.STATISTIC_TYPE_TABLE_NAME,
                 PingPongSQLHelper.STATISTIC_TYPE_TABLE_COLUMNS,
-                "statisticTypeName = ?s",
+                "statisticTypeName = ?",
                 new String[] {statisticTypeName},
                 null, null, null, "1");
 

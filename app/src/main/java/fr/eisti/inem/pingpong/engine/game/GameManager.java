@@ -15,6 +15,14 @@ public class GameManager extends AbstractManager {
         super(context);
     }
 
+    /**
+     * Create a new instance of the game. Once the {@link Game} instance is up, it is fully
+     * independent.
+     *
+     * @param players the base players in the game. At least 2 players should be given, else
+     *                {@link Game#startGame()} will throw a {@link InvalidGameStateException}.
+     * @return the newly created game
+     */
     public Game newGame(List<User> players) {
         return new Game(players);
     }

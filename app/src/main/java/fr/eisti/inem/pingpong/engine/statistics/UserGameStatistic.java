@@ -45,7 +45,7 @@ public class UserGameStatistic extends Statistic {
                 new String[] {
                         PingPongSQLHelper.USER_GAME_STATISTICS_TABLE_COLUMNS[0],
                         PingPongSQLHelper.USER_GAME_STATISTICS_TABLE_COLUMNS[4] },
-                String.format("userId = ?s AND gameId = ?s AND statTypeId = ?s"),
+                String.format("userId = ? AND gameId = ? AND statTypeId = ?"),
                 new String[] {
                         Integer.toString(this.user.getId()),
                         Integer.toString(this.game.getId()),
