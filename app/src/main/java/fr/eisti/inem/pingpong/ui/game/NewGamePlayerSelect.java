@@ -40,6 +40,8 @@ public class NewGamePlayerSelect extends AppCompatActivity {
         this.playerListDisplay = findViewById(R.id.playerList);
         this.addFromScratch.setOnClickListener(new OnAddFromScratchListener(this));
         this.addFromDatabase.setOnClickListener(new OnAddFromDataBase(this));
+        this.startGameButton.setOnClickListener(new OnStartGame(this));
+        this.startGameButton.setActivated(false);
     }
 
     public void addUser(User user){
@@ -54,11 +56,15 @@ public class NewGamePlayerSelect extends AppCompatActivity {
         } else {
             player.setText(user.getUserName());
         }
-
+        player.setId(user.getId());
         this.playerListDisplay.addView(player);
-        if(this.playerList.size() == 2){
+        player.setOnClickListener(new OnRemovePlayerAtCreation(this,user,player.getId()));
+        if(this.playerList.size() > 1){
             this.startGameButton.setTextColor(Color.BLACK);
-            this.startGameButton.setOnClickListener(new OnStartGame(this));
+            this.startGameButton.setActivated(true);
+        } else{
+            this.startGameButton.setTextColor(Color.BLACK);
+            this.startGameButton.setActivated(false);
         }
     }
 
@@ -74,5 +80,11 @@ public class NewGamePlayerSelect extends AppCompatActivity {
 
         i.putExtra("game", this.engineManager.getGameManager().newGame(playerListliste));
         NewGamePlayerSelect.this.startActivity(i);
+    }
+
+    public void removeUser(User user, int viewId) {
+        this.playerList.remove(user.getId());
+        this.playerListDisplay.removeView(findViewById(viewId));
+
     }
 }
