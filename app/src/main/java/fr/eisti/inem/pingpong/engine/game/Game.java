@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,12 +135,36 @@ public class Game implements Serializable {
      * @param user the player to add
      */
     public Game addPlayerToGame(User user) {
+        List<PlayerPosition> listOfEmptyPosition = getEmptyPosition();
+
+        //If there is an empty position in the table,
+        //The new one must be put on the table
+
+        if(listOfEmptyPosition.size() > 0){
+            playerPositions.put(getEmptyPosition().get(0),user);
+        } else{
+            this.playerQueue.add(user);
+        }
         this.players.add(user);
-        this.playerQueue.add(user);
 
         initializeStatisticsForPlayer(user);
 
         return this;
+    }
+
+    /**
+     * get the list of all position without a player
+     *
+     * @return listOfEmptyPosition the list of empty position
+     */
+    private List<PlayerPosition> getEmptyPosition(){
+        List<PlayerPosition> listOfEmptyPosition = new ArrayList<>();
+        for(PlayerPosition position : PlayerPosition.values()){
+            if(playerPositions.get(position) == null){
+                listOfEmptyPosition.add(position);
+            }
+        }
+        return listOfEmptyPosition;
     }
 
     /**
