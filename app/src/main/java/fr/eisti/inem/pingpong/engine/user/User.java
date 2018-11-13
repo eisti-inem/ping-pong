@@ -140,7 +140,7 @@ public class User implements Serializable {
         if (obj instanceof User) {
             User user2 = (User) obj;
 
-            return this.id == user2.id;
+            return this.id.equals(user2.id);
         }
 
         return false;

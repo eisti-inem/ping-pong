@@ -135,19 +135,24 @@ public class Game implements Serializable {
      * @param user the player to add
      */
     public Game addPlayerToGame(User user) {
-        List<PlayerPosition> listOfEmptyPosition = getEmptyPosition();
 
-        //If there is an empty position in the table,
-        //The new one must be put on the table
+        //if the user is already in the game, don't add it
+        if(!this.players.contains(user)){
+            List<PlayerPosition> listOfEmptyPosition = getEmptyPositions();
 
-        if(listOfEmptyPosition.size() > 0){
-            playerPositions.put(getEmptyPosition().get(0),user);
-        } else{
-            this.playerQueue.add(user);
+            //If there is an empty position in the table,
+            //The new one must be put on the table
+
+            if(listOfEmptyPosition.size() > 0){
+                playerPositions.put(getEmptyPositions().get(0),user);
+            } else{
+                this.playerQueue.add(user);
+            }
+            this.players.add(user);
+
+            initializeStatisticsForPlayer(user);
         }
-        this.players.add(user);
 
-        initializeStatisticsForPlayer(user);
 
         return this;
     }
@@ -155,9 +160,9 @@ public class Game implements Serializable {
     /**
      * get the list of all position without a player
      *
-     * @return listOfEmptyPosition the list of empty position
+     * @return the list of empty position
      */
-    private List<PlayerPosition> getEmptyPosition(){
+    private List<PlayerPosition> getEmptyPositions(){
         List<PlayerPosition> listOfEmptyPosition = new ArrayList<>();
         for(PlayerPosition position : PlayerPosition.values()){
             if(playerPositions.get(position) == null){
