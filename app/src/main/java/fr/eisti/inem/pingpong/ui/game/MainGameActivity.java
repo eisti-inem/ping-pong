@@ -1,5 +1,7 @@
 package fr.eisti.inem.pingpong.ui.game;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -77,10 +79,16 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
         }
     }
 
+    public void updateView(){
+        displayPlayersInTable();
+        displayQueue();
+    }
+
     private void displayPlayersInTable() {
         for(Map.Entry<Game.PlayerPosition, TextView> entry : this.tablePosition.entrySet()){
             if (this.currentGame.getPlayerAtPosition(entry.getKey()) != null){
                 TextView tv = entry.getValue();
+                tv.setOnLongClickListener(new OnRemovePlayerClick(this,currentGame.getPlayerAtPosition(entry.getKey())));
                 tv.setText(this.currentGame.getPlayerAtPosition(entry.getKey()).getUserName());
                 tv.setOnClickListener(new OnPlayerOutListener(this,this.currentGame.getPlayerAtPosition(entry.getKey())));
             }
@@ -93,6 +101,7 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
         while(!(queueList.isEmpty())){
             TextView tv = new TextView(this);
             User player = queueList.poll();
+            tv.setOnLongClickListener(new OnRemovePlayerClick(this,player));
             tv.setText(player.getUserName());
             this.queueDisplay.addView(tv);
         }
@@ -105,6 +114,27 @@ public class MainGameActivity extends AppCompatActivity  implements PingPongTabl
 
     public Game getCurrentGame() {
         return currentGame;
+    }
+
+    public void removePlayer(final User user){
+        TextView tv = new TextView(this);
+        tv.setText(getString(R.string.removeBegin) + user.getUserName() + getString(R.string.removeEnd));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true)
+                .setView(tv)
+                .setTitle(R.string.removeTitle)
+                .setPositiveButton(R.string.removeTitle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            getCurrentGame().removePlayerFromGame(user).getReplacementPlayer();
+                            updateView();
+                        } catch (UserNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .show();
     }
 
 }

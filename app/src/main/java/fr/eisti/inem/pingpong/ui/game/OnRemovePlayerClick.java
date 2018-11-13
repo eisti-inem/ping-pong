@@ -21,23 +21,7 @@ public class OnRemovePlayerClick implements View.OnLongClickListener {
 
     @Override
     public boolean onLongClick(View v) {
-        TextView tv = new TextView(this.mga);
-        String popUpText = R.string.removeBegin + this.user.getUserName() + R.string.removeEnd;
-        tv.setText(popUpText);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.mga);
-        builder.setCancelable(true)
-                .setView(tv)
-                .setPositiveButton(R.string.removeTitle, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            mga.getCurrentGame().removePlayerFromGame(user);
-                        } catch (UserNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                })
-                .show();
+        this.mga.removePlayer(user);
         return true;
     }
 }

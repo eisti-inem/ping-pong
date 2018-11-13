@@ -26,7 +26,7 @@
     <string name="queueTitle">Next players</string>
     <string name="displayPlayers">Display the player list</string>
     <string name="okay">OK</string>
-    <string name="removeBegin">Remove</string>
-    <string name="removeEnd">from game</string>
+    <string name="removeBegin">Remove </string>
+    <string name="removeEnd"> from game</string>
     <string name="removeTitle">Remove player</string>
 </resources>
